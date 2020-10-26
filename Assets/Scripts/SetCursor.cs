@@ -19,5 +19,5 @@ public class SetCursor : MonoBehaviour
     {
         var cursorOffset = new Vector2(offsetX, offsetY);
         Cursor.SetCursor(basicCursor, cursorOffset, CursorMode.Auto);   
-    } 
+    }
 }

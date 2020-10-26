@@ -18,8 +18,9 @@ public class GridManager : MonoBehaviour
 
     private void Update()
     {
-        var cellPos = grid.WorldToCell(Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x + 24, Input.mousePosition.y + 24)));
-        gameObj.transform.position = grid.CellToWorld(cellPos);
+        var cellPos = grid.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        var gameObjPos = new Vector2(cellPos.x + 0.5f, cellPos.y + 0.5f);
+        gameObj.transform.position = gameObjPos;
     }
 
 }

@@ -1,18 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
-public class Node : MonoBehaviour
+public class Node
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public int X { get; }
+    public int Y { get; }
+
+    public int GCost { get; set; }
+    public int HCost { get; set; }
+    public int FCost { get { return GCost + HCost; } }
+
+    public Node Parent { get; set; }
+
+    public Node(int x, int y)
     {
-        
+        X = x;
+        Y = y;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

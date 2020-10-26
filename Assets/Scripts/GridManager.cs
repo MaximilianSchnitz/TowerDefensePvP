@@ -5,46 +5,21 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject gameObj;
 
-    [SerializeField]
-    private int rows = 10;
-    [SerializeField]
-    private int cols = 10;
-    [SerializeField]
-    private float tileSize = 1;
+    private Grid grid;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        GenerateGrid();
+        grid = transform.parent.GetComponent<Grid>();
+        gameObj = Instantiate(gameObj);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        var cellPos = grid.WorldToCell(Camera.main.ScreenToWorldPoint(new Vector2(Input.mousePosition.x + 24, Input.mousePosition.y + 24)));
+        gameObj.transform.position = grid.CellToWorld(cellPos);
     }
-
-
-    private void GenerateGrid()
-    {
-        var refTile = new GameObject();
-
-        for(int row = 0; row < rows; row++)
-        {
-            for(int col = 0; col < cols; col++)
-            {
-                var tile = Instantiate(refTile, transform);
-
-                float posX = col * tileSize;
-                float posY = -row * tileSize;
-
-                tile.transform.position = new Vector2(posX, posY);
-            }
-        }
-
-        Destroy(refTile);
-    }
-
 
 }

@@ -9,11 +9,6 @@ public class Pathfinding
     List<Node> openNodes; // 
     List<Node> closedNodes; // Nodes ignoriert werden sollen
 
-    public Vector2 startLocation;
-    public Vector2 targetLocation;
-
-    Pathfinding Instance { get; } = new Pathfinding();
-
     private const int STRAIGHT_COST = 10; // Kosten für eine Bewegung nach Links, Recht, Oben oder Unten
     private const int DIAGONAL_COST = 14; // Kosten für eine diagonale Bewegung. Resultiert aus sqrt(1^2 + 1^2), was grob die Strecke von A nach C in einem rechtwinkligen
     //Dreieck mit Seitenlängen a = 1 und c = 1. Am Ende mal 10 genommen um mit int arbeiten zu können.
@@ -26,6 +21,11 @@ public class Pathfinding
         for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++)
                 grid[x, y] = new Node(x, y);
+    }
+
+    public List<Node> FindPath(Vector2 start, Vector2 end)
+    {
+        return FindPath((int) start.x, (int) start.y, (int) end.x, (int) end.y);
     }
 
     public List<Node> FindPath(int startX, int startY, int endX, int endY)

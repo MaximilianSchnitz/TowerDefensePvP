@@ -8,14 +8,26 @@ public class Testing : MonoBehaviour
     [SerializeField]
     GameObject target;
 
+    [SerializeField]
+    Grid grid;
     // Start is called before the first frame update
     Pathfinding aStar;
     List<Node> path = new List<Node>();
     void Start()
     {
         aStar = new Pathfinding();
-        aStar.Initialise(30, 20);
-        path = aStar.FindPath((int)transform.position.x, (int)transform.position.y, (int)target.transform.position.x, (int)target.transform.position.y);
+        aStar.Initialise(30, 30);
+
+        var startLocation = new Vector2(0, 0);
+        var endLocation = new Vector2(10, 20);
+
+        Debug.Log("Start: " + startLocation);
+        Debug.Log("Target: " + endLocation);
+
+        path = aStar.FindPath(startLocation, endLocation);
+
+        for(int i = 0; i < path.Count; i++)
+            Debug.Log($"{i}: ({path[i].X}|{path[i].Y})");
     }
 
     // Update is called once per fixed frame
@@ -23,12 +35,11 @@ public class Testing : MonoBehaviour
     int i = 0;
     void FixedUpdate()
     {
-
-        
-
+        return;
         var currentNode = path[i];
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(currentNode.X, currentNode.Y), 1);
-        if (transform.position == new Vector3(currentNode.X, currentNode.Y, transform.position.z))
+        var nodePos = Camera.main.WorldToScreenPoint(grid.CellToWorld(new Vector3Int(currentNode.X, currentNode.Y, 1))); 
+        transform.position = Vector2.MoveTowards(transform.position, nodePos, 1);
+        if (transform.position == nodePos)
             if (i < path.Count)
                 i++;
 

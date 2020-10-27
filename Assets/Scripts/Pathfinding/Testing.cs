@@ -16,18 +16,9 @@ public class Testing : MonoBehaviour
     void Start()
     {
         aStar = new Pathfinding();
-        aStar.Initialise(30, 30);
+        aStar.Initialise(33, 15);
 
-        var startLocation = new Vector2(0, 0);
-        var endLocation = new Vector2(10, 20);
 
-        Debug.Log("Start: " + startLocation);
-        Debug.Log("Target: " + endLocation);
-
-        path = aStar.FindPath(startLocation, endLocation);
-
-        for(int i = 0; i < path.Count; i++)
-            Debug.Log($"{i}: ({path[i].X}|{path[i].Y})");
     }
 
     // Update is called once per fixed frame
@@ -35,11 +26,11 @@ public class Testing : MonoBehaviour
     int i = 0;
     void FixedUpdate()
     {
-        return;
+        
         var currentNode = path[i];
-        var nodePos = Camera.main.WorldToScreenPoint(grid.CellToWorld(new Vector3Int(currentNode.X, currentNode.Y, 1))); 
-        transform.position = Vector2.MoveTowards(transform.position, nodePos, 1);
-        if (transform.position == nodePos)
+        var currentPos = Camera.main.WorldToScreenPoint(grid.CellToWorld(new Vector3Int((int) transform.position.x, (int) transform.position.y, 1)));
+        transform.position = Vector2.MoveTowards(currentPos, currentNode.Position, 1);
+        if (currentPos == currentNode.Position)
             if (i < path.Count)
                 i++;
 
@@ -47,4 +38,11 @@ public class Testing : MonoBehaviour
             counter = 61;
         counter--;
     }
+
+    private Vector2 WorldToCell(Vector2 pos)
+    {
+        var vec3 = new Vector3Int((int) pos.x, (int) pos.y, 1);
+        return Camera.main.WorldToScreenPoint(grid.CellToWorld());
+    }
+
 }

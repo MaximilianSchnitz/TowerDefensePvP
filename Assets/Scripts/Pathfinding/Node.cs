@@ -11,6 +11,8 @@ public class Node
 
     public Vector2 Position { get { return new Vector2(X, Y); } }
 
+    public bool IsWalkable { get; set; }
+
     public int GCost { get; set; }
     public int HCost { get; set; }
     public int FCost { get { return GCost + HCost; } }

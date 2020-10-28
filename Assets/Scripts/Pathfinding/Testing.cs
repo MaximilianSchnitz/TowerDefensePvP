@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,8 +9,6 @@ public class Testing : MonoBehaviour
 
     [SerializeField]
     GameObject target;
-    [SerializeField]
-    Grid grid;
     [SerializeField]
     Vector2 mapCellSize;
 
@@ -24,7 +23,7 @@ public class Testing : MonoBehaviour
         originCell = GridManager.WorldToCell(Vector2.zero);
 
         aStar = new Pathfinding();
-        aStar.Initialise(33, 15);
+        aStar.Initialise((int) mapCellSize.x, (int) mapCellSize.y);
     }
     int i = 0;
     void Update()
@@ -32,11 +31,22 @@ public class Testing : MonoBehaviour
         if(Input.GetMouseButtonDown(0))
         {
             Debug.Log(GridManager.WorldToCell(Input.mousePosition) - originCell);
-            var cellPos = new Vector2(transform.position.x, transform.position.y);
+            var cellPos = new Vector2(transform.position.x, transform.position.y) - originCell;
             var targetCell = GridManager.WorldToCell(Input.mousePosition) - originCell;
             path = aStar.FindPath(cellPos, targetCell);
             i = 0;
             Debug.Log(targetCell + originCell);
+        }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            Debug.Log(GridManager.WorldToCell(Input.mousePosition) - originCell);
+            var targetCell = GridManager.WorldToCell(Input.mousePosition) - originCell;
+            aStar.grid[(int) targetCell.x, (int) targetCell.y].IsWalkable = !aStar.grid[(int)targetCell.x, (int)targetCell.y].IsWalkable;
+            var newWall = Instantiate(target);
+            var renderer = newWall.GetComponent<SpriteRenderer>();
+            renderer.color = Color.black;
+            newWall.transform.position = new Vector2(targetCell.x + 0.5f, targetCell.y + 0.5f) + originCell;
         }
     }
 
@@ -48,12 +58,12 @@ public class Testing : MonoBehaviour
         if (path is null)
             return;
 
-        var nextPos = path[i].Position;
-
+        var nextCellPos = path[i].Position;
+        var nextPos = new Vector2(nextCellPos.x + 0.5f, nextCellPos.y + 0.5f);
         //Debug.Log(nextPos);
 
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(nextPos.x, nextPos.y), 3 * Time.fixedDeltaTime);
-        if ((Vector2)transform.position == path[i].Position + originCell)
+        transform.position = Vector2.MoveTowards(transform.position, nextPos + originCell, 3 * Time.fixedDeltaTime);
+        if ((Vector2)transform.position == nextPos + originCell)
             i++;
 
         //Debug.Log(transform.position);
@@ -76,11 +86,6 @@ public class Testing : MonoBehaviour
         //Debug.Log("Current Pos: " + currentPos);
         //Debug.Log("Next Pos: " + nextPos);
 
-    }
-
-    private Vector2 CellInGrid(Vector2 cell)
-    {
-        return new Vector2(cell.x - originCell.x, cell.y - originCell.y);
     }
 
 }

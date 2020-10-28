@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using UnityEditor.Experimental.TerrainAPI;
 using UnityEngine;
 
 public class Pathfinding
 {
-    Node[,] grid; // Map
+    public Node[,] grid; // Map
     List<Node> openNodes; // 
     List<Node> closedNodes; // Nodes ignoriert werden sollen
 
@@ -19,8 +20,13 @@ public class Pathfinding
 
         // Bei jeder Koordinate ein Node erzeugen
         for (int x = 0; x < width; x++)
+        {
             for (int y = 0; y < height; y++)
+            {
                 grid[x, y] = new Node(x, y);
+                grid[x, y].IsWalkable = true;
+            }
+        }
     }
 
     public List<Node> FindPath(Vector2 start, Vector2 end)
@@ -43,6 +49,9 @@ public class Pathfinding
                 var node = grid[x, y];
                 node.GCost = int.MaxValue;
                 node.Parent = null;
+
+                if (!node.IsWalkable)
+                    closedNodes.Add(node);
             }
         }
 

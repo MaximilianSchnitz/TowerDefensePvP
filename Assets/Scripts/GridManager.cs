@@ -10,6 +10,9 @@ public class GridManager : MonoBehaviour
 
     private static Grid grid;
 
+    public static Vector2Int gridCellSize = new Vector2Int(33, 16);
+
+
     private void Start()
     {
         grid = transform.parent.GetComponent<Grid>();

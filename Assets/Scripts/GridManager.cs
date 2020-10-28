@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+
+    //TODO: GridManager Klasse entfernen und Inhalt entweden komplett in GameHandler verschieben, oder zwischen GameHandler und einer seperaten Klasse aufteilen
+
     [SerializeField]
     private GameObject gameObj;
 

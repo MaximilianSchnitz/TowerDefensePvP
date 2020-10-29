@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class TestChar : Character
 {
+    [SerializeField]
+    GameObject enemyBase;
 
     // Update is called once per frame
     void Update()
     {
+        Attack(enemyBase);
         MovePath();
         if(Input.GetMouseButtonDown(0))
         {

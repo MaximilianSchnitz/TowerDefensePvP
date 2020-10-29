@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Character : MonoBehaviour
@@ -30,12 +31,14 @@ public class Character : MonoBehaviour
             pathFinding.grid[tile.x - GameHandler.originCell.x, tile.y - GameHandler.originCell.y].IsWalkable = true;
     }
 
-    protected virtual void Attack(Base enemyBase)
+    protected virtual void Attack(GameObject enemyBase)
     {
         if (Vector2.Distance(transform.position, enemyBase.transform.position) > 1)
             return;
 
-        enemyBase.health -= damage;
+        ((Base) enemyBase.GetComponent<MonoBehaviour>()).health -= damage;
+        Debug.Log("Damage done!");
+        Instantiate(transform.gameObject, Vector3.zero, Quaternion.identity);
         Destroy(transform.gameObject);
     }
     

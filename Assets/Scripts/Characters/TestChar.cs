@@ -11,7 +11,8 @@ public class TestChar : Character
     // Update is called once per frame
     void Update()
     {
-        Attack(enemyBase);
+        if(enemyBase != null)
+            Attack(enemyBase);
         MovePath();
         if(Input.GetMouseButtonDown(0))
         {

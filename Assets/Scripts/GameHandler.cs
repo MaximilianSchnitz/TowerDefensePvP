@@ -10,7 +10,7 @@ public class GameHandler : MonoBehaviour
     private GameObject selectedField;
 
     public static Vector2Int originCell;
-    public static Vector2Int mapCellSize = new Vector2Int(34, 16);
+    public static Vector2Int mapCellSize = new Vector2Int(38, 18);
 
     public static List<Vector2Int> pathTiles;
 

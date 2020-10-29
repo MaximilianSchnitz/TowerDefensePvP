@@ -6,6 +6,8 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField]
+    protected int price;
+    [SerializeField]
     protected float speed; //Bewegungsgeschwindigkeit
     [SerializeField]
     protected float health;
@@ -25,7 +27,7 @@ public class Character : MonoBehaviour
         originCell = GameHandler.WorldToCell(Vector2.zero);
 
         pathFinding = new Pathfinding();
-        pathFinding.Initialise(34, 16);
+        pathFinding.Initialise(GameHandler.mapCellSize.x, GameHandler.mapCellSize.y);
 
         foreach (var tile in GameHandler.pathTiles)
             pathFinding.grid[tile.x - GameHandler.originCell.x, tile.y - GameHandler.originCell.y].IsWalkable = true;

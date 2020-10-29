@@ -24,7 +24,7 @@ public class Pathfinding
             for (int y = 0; y < height; y++)
             {
                 grid[x, y] = new Node(x, y);
-                grid[x, y].IsWalkable = true;
+                grid[x, y].IsWalkable = false;
             }
         }
     }

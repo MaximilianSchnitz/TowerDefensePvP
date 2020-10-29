@@ -6,6 +6,10 @@ public class Character : MonoBehaviour
 {
     [SerializeField]
     protected float speed; //Bewegungsgeschwindigkeit
+    [SerializeField]
+    protected float health;
+    [SerializeField]
+    protected float damage;
 
     protected Pathfinding pathFinding;
     protected List<Node> path;
@@ -15,18 +19,31 @@ public class Character : MonoBehaviour
                                   // da diese eine Array ist und somit nur nicht negative Koordinaten haben kann, das Standart grid jedoch seinen Ursprung in der Mitte des Bildschrims hat.
 
     // Start is called before the first frame update
-    private void Start()
+    protected virtual void Start()
     {
-        originCell = GridManager.WorldToCell(Vector2.zero);
+        originCell = GameHandler.WorldToCell(Vector2.zero);
 
         pathFinding = new Pathfinding();
-        pathFinding.Initialise(GridManager.gridCellSize.x, GridManager.gridCellSize.y);
+        pathFinding.Initialise(34, 16);
+
+        foreach (var tile in GameHandler.pathTiles)
+            pathFinding.grid[tile.x - GameHandler.originCell.x, tile.y - GameHandler.originCell.y].IsWalkable = true;
+    }
+
+    protected virtual void Attack(Base enemyBase)
+    {
+        if (Vector2.Distance(transform.position, enemyBase.transform.position) > 1)
+            return;
+
+        enemyBase.health -= damage;
+        Destroy(transform.gameObject);
     }
     
     //Berechnet den Pfad zu angegebenen GameObject und setzt pfad Variable
-    protected void CalculatePathTo(GameObject gameObject)
+    protected void CalculatePathTo(Vector2 pos)
     {
-        path = pathFinding.FindPath((Vector2) transform.position - originCell, (Vector2) gameObject.transform.position - originCell);
+        path = pathFinding.FindPath((Vector2) transform.position - originCell, pos - originCell);
+        currentNodeNo = path != null && path.Count > 1 ? 1 : 0; //Soll mit Bewegung zum nächsten Node anfangen um bei schnellem ändern des Pfad die Bewegung flüssiger zu machen, falls der Pfad lang genug ist
     }
 
     //Solange es einen berechneten Pfad gibt bewegt sich der Charakter entlang dieses Pfades.
@@ -49,8 +66,8 @@ public class Character : MonoBehaviour
             }
             else
             {
-                path = null;
                 currentNodeNo = 0;
+                path = null;
             }
         }
         return false;

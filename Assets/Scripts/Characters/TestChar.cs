@@ -19,5 +19,9 @@ public class TestChar : Character
             Debug.Log(GameHandler.WorldToCell(Input.mousePosition) - GameHandler.originCell);
             CalculatePathTo(GameHandler.WorldToCell(Input.mousePosition));
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            health--;
+
     }
 }

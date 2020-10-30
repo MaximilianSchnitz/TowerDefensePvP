@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -6,13 +7,13 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField]
-    protected int price;
+    public int price;
     [SerializeField]
-    protected float speed; //Bewegungsgeschwindigkeit
+    public float speed; //Bewegungsgeschwindigkeit
     [SerializeField]
-    protected float health;
+    public float maxHealth;
     [SerializeField]
-    protected float damage;
+    public float damage;
 
     protected Pathfinding pathFinding;
     protected List<Node> path;
@@ -20,6 +21,9 @@ public class Character : MonoBehaviour
 
     protected Vector2 originCell; // Zelle in der Linken unterer Ecke des Bildschirms. Wird benötigt, wenn die Koordinaten der Welt in die der Pathfinding map umgewandelt werden sollen,
                                   // da diese eine Array ist und somit nur nicht negative Koordinaten haben kann, das Standart grid jedoch seinen Ursprung in der Mitte des Bildschrims hat.
+
+    [NonSerialized]
+    public float health;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -31,6 +35,8 @@ public class Character : MonoBehaviour
 
         foreach (var tile in GameHandler.pathTiles)
             pathFinding.grid[tile.x - GameHandler.originCell.x, tile.y - GameHandler.originCell.y].IsWalkable = true;
+
+        health = maxHealth;
     }
 
     protected virtual void Attack(GameObject enemyBase)

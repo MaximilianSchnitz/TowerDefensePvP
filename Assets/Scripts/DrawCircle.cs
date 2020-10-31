@@ -21,16 +21,13 @@ public class DrawCircle : MonoBehaviour
 
     private void Update()
     {
-        if (GameHandler.WorldToCell(Input.mousePosition) == new Vector2((int) transform.position.x, (int) transform.position.y))
+        if (GameHandler.WorldToCell(Input.mousePosition) == new Vector2(transform.position.x - .5f, transform.position.y - .5f))
             for (int i = 0; i < segments + 1; i++)
-                line.SetPosition(i, new Vector3(line.GetPosition(i).x, line.GetPosition(i).y, 0));
+                line.sortingOrder = 1; //line.SetPosition(i, new Vector3(line.GetPosition(i).x, line.GetPosition(i).y, 0));
         else
             for (int i = 0; i < segments + 1; i++)
-                line.SetPosition(i, new Vector3(line.GetPosition(i).x, line.GetPosition(i).y, 5));
-
-
-
-
+                line.sortingOrder = -1; //line.SetPosition(i, new Vector3(line.GetPosition(i).x, line.GetPosition(i).y, 5));
+        
     }
 
     void CreatePoints()

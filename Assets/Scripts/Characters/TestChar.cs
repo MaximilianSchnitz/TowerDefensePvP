@@ -8,6 +8,12 @@ public class TestChar : Character
     [SerializeField]
     GameObject enemyBase;
 
+    protected override void Start()
+    {
+        base.Start();
+        CalculatePathTo(enemyBase);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -16,7 +22,6 @@ public class TestChar : Character
         MovePath();
         if(Input.GetMouseButtonDown(0))
         {
-            Debug.Log(GameHandler.WorldToCell(Input.mousePosition) - GameHandler.originCell);
             CalculatePathTo(GameHandler.WorldToCell(Input.mousePosition));
         }
 

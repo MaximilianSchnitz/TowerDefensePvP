@@ -33,7 +33,7 @@ public class Tower : MonoBehaviour
 
     public void Target(GameObject enemy)
     {
-        if (Vector2.Distance(transform.position, enemy.transform.position) > range)
+        if (enemy == null || Vector2.Distance(transform.position, enemy.transform.position) > range)
             return;
 
         Attack(enemy);
@@ -52,6 +52,9 @@ public class Tower : MonoBehaviour
     public GameObject GetClosestCharacter()
     {
         var chars = GameObject.FindGameObjectsWithTag("Character");
+        if (chars.Length == 0)
+            return null;
+
         var closest = chars[0];
         var closestDistance = Vector2.Distance(transform.position, closest.transform.position);
         foreach(var c in chars)

@@ -57,6 +57,11 @@ public class Character : MonoBehaviour
         currentNodeNo = path != null && path.Count > 1 ? 1 : 0; //Soll mit Bewegung zum nächsten Node anfangen um bei schnellem ändern des Pfad die Bewegung flüssiger zu machen, falls der Pfad lang genug ist
     }
 
+    protected void CalculatePathTo(GameObject gameObject)
+    {
+        CalculatePathTo(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y));
+    }
+
     //Solange es einen berechneten Pfad gibt bewegt sich der Charakter entlang dieses Pfades.
     //Gibt true zurück wenn das Zeil erreicht ist und false wenn nicht
     protected bool MovePath()

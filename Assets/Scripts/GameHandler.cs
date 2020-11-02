@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +18,12 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField]
     Tilemap pathTileMap;
-    
+
+    private GameObject[] buttonGameObjs;
+    private List<Button> buttons;
+    private List<Vector2> occupiedTiles;
+
+    private int selectedButton = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +44,41 @@ public class GameHandler : MonoBehaviour
             for(int y = originCell.y; y < mapCellSize.y + originCell.y; y++)
                 if(pathTileMap.GetTile(new Vector3Int(x, y, 0)) != null)
                     pathTiles.Add(new Vector2Int(x, y));
+
+        //Button events zuweisen
+        buttonGameObjs = GameObject.FindGameObjectsWithTag("Button");
+        buttons = new List<Button>();
+
+        Debug.Log(buttonGameObjs.Length);
+
+        for(int i = 0; i < buttonGameObjs.Length; i++)
+            buttons.Add(buttonGameObjs[i].GetComponent<MonoBehaviour>() as Button);
+
+        GetByIndicator(0).buttonClicked += ButtonClicked0;
+
+        //Tower Positionen
+        occupiedTiles = new List<Vector2>();
+        var towers = GameObject.FindGameObjectsWithTag("Tower");
+        for(int i = 0; i < towers.Length; i++)
+        {
+            occupiedTiles.Add(towers[i].transform.position);
+        }
+    }
+
+    private void ButtonClicked0(Button sender)
+    {
+        Debug.Log("afasdasdasfdfgatghgrewsghjkhgrfefshkjhfew");
+        selectedButton = 0;
+    }
+
+    private Button GetByIndicator(int indicator)
+    {
+        for(int i = 0; i < buttons.Count; i++)
+        {
+            if (buttons[i].indicator == indicator)
+                return buttons[i];
+        }
+        return null;
     }
 
     // Update is called once per frame
@@ -45,14 +86,31 @@ public class GameHandler : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            Debug.Log(WorldToCell(Input.mousePosition));
-            Debug.Log(WorldToCell(Input.mousePosition) - originCell);
+            foreach(var b in buttons)
+            {
+                if (b.CheckPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+                    b.Click();
+            }
         }
+
+        if(Input.GetMouseButtonDown(0) && occupiedTiles.Contains(WorldToCell(Input.mousePosition)))
+        {
+            var mousePos = WorldToCell(Input.mousePosition);
+            switch(selectedButton)
+            {
+                case 0:
+                    Instantiate(Resources.Load("TestTower"), new Vector3(mousePos.x + .5f, mousePos.y + .5f, 0), Quaternion.identity);
+                    break;
+            }
+        }
+
 
         var cellPos = WorldToCell(Input.mousePosition);
         var gameObjPos = new Vector2(cellPos.x + 0.5f, cellPos.y + 0.5f);
         selectedField.transform.position = gameObjPos;
 
+
+        //Test
         if(Input.GetMouseButtonDown(1))
         {
             var mousePos = WorldToCell(Input.mousePosition);

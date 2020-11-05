@@ -18,10 +18,12 @@ public class GameHandler : MonoBehaviour
 
     [SerializeField]
     Tilemap pathTileMap;
+    [SerializeField]
+    Tilemap subPathTileMap;
 
     private GameObject[] buttonGameObjs;
     private List<Button> buttons;
-    private List<Vector2> occupiedTiles;
+    private List<Vector2Int> occupiedTiles;
 
     private int selectedButton = -1;
 
@@ -42,7 +44,7 @@ public class GameHandler : MonoBehaviour
 
         for(int x = originCell.x; x < mapCellSize.x + originCell.x; x++)
             for(int y = originCell.y; y < mapCellSize.y + originCell.y; y++)
-                if(pathTileMap.GetTile(new Vector3Int(x, y, 0)) != null)
+                if(pathTileMap.GetTile(new Vector3Int(x, y, 0)) != null || subPathTileMap.GetTile(new Vector3Int(x, y, 0)) != null)
                     pathTiles.Add(new Vector2Int(x, y));
 
         //Button events zuweisen
@@ -57,17 +59,31 @@ public class GameHandler : MonoBehaviour
         GetByIndicator(0).buttonClicked += ButtonClicked0;
 
         //Tower Positionen
-        occupiedTiles = new List<Vector2>();
+        occupiedTiles = new List<Vector2Int>();
         var towers = GameObject.FindGameObjectsWithTag("Tower");
-        for(int i = 0; i < towers.Length; i++)
+    }
+
+    private List<Vector2Int> GetOccupiedTilesFromTower(GameObject tower)
+    {
+        return GetOccupiedTilesFromTower(tower.GetComponent<MonoBehaviour>() as Tower);
+    }
+
+    private List<Vector2Int> GetOccupiedTilesFromTower(Tower tower)
+    {
+        var occTiles = new List<Vector2Int>();
+        var towerPos = new Vector2Int(Mathf.FloorToInt(tower.transform.position.x), Mathf.FloorToInt(tower.transform.position.y));
+        for(int x = towerPos.x + tower.bottomLeft.x; x <= towerPos.x + tower.topRight.x; x++)
         {
-            occupiedTiles.Add(towers[i].transform.position);
+            for(int y = towerPos.y  + tower.bottomLeft.y; y <= towerPos.y + tower.topRight.y; y++)
+            {
+                occTiles.Add(new Vector2Int(x, y));
+            }
         }
+        return occTiles;
     }
 
     private void ButtonClicked0(Button sender)
     {
-        Debug.Log("afasdasdasfdfgatghgrewsghjkhgrfefshkjhfew");
         selectedButton = 0;
     }
 
@@ -84,7 +100,22 @@ public class GameHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        var mousePos = WorldToCell(Input.mousePosition);
+        if(Input.GetMouseButtonDown(0) && !occupiedTiles.Contains(mousePos) && !pathTiles.Contains(mousePos))
+        {
+            switch(selectedButton)
+            {
+                case 0:
+                    var tower = Instantiate(Resources.Load("TestTower"), new Vector3(mousePos.x + .5f, mousePos.y + .5f, 0), Quaternion.identity);
+                    selectedButton = -1;
+                    occupiedTiles.AddRange(GetOccupiedTilesFromTower((GameObject) tower));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0))
         {
             foreach(var b in buttons)
             {
@@ -93,16 +124,6 @@ public class GameHandler : MonoBehaviour
             }
         }
 
-        if(Input.GetMouseButtonDown(0) && occupiedTiles.Contains(WorldToCell(Input.mousePosition)))
-        {
-            var mousePos = WorldToCell(Input.mousePosition);
-            switch(selectedButton)
-            {
-                case 0:
-                    Instantiate(Resources.Load("TestTower"), new Vector3(mousePos.x + .5f, mousePos.y + .5f, 0), Quaternion.identity);
-                    break;
-            }
-        }
 
 
         var cellPos = WorldToCell(Input.mousePosition);
@@ -110,15 +131,6 @@ public class GameHandler : MonoBehaviour
         selectedField.transform.position = gameObjPos;
 
 
-        //Test
-        if(Input.GetMouseButtonDown(1))
-        {
-            var mousePos = WorldToCell(Input.mousePosition);
-            if(!pathTiles.Contains(new Vector2Int((int) mousePos.x, (int) mousePos.y)))
-            {
-                Instantiate(Resources.Load("TestTower"), new Vector3(mousePos.x + .5f, mousePos.y + .5f, 0), Quaternion.identity);
-            }
-        }
     }
 
     public static Vector2 CellToWorld(Vector2 cell)
@@ -127,11 +139,11 @@ public class GameHandler : MonoBehaviour
         return Camera.main.WorldToScreenPoint(grid.CellToWorld(vec3));
     }
 
-    public static Vector2 WorldToCell(Vector2 pos)
+    public static Vector2Int WorldToCell(Vector2 pos)
     {
         var vec3 = new Vector3Int((int)pos.x, (int)pos.y, 1);
         var cell = grid.WorldToCell(Camera.main.ScreenToWorldPoint(vec3));
-        return new Vector2(cell.x, cell.y);
+        return new Vector2Int(cell.x, cell.y);
     }
 
 }

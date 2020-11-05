@@ -13,7 +13,10 @@ public class Tower : MonoBehaviour
     public float damage;
     [SerializeField]
     public float cooldown;
-
+    [SerializeField]
+    public Vector2Int bottomLeft;
+    [SerializeField]
+    public Vector2Int topRight;
 
     // Start is called before the first frame update
     void Start()

@@ -65,20 +65,20 @@ public class GameHandler : MonoBehaviour
 
     private List<Vector2Int> GetOccupiedTilesFromTower(GameObject tower)
     {
-        return GetOccupiedTilesFromTower(tower.GetComponent<MonoBehaviour>() as Tower);
+        return GetOccupiedTilesFromTower(tower.GetComponent<MonoBehaviour>() as Turret);
     }
 
-    private List<Vector2Int> GetOccupiedTilesFromTower(Tower tower)
+    private List<Vector2Int> GetOccupiedTilesFromTower(Turret tower)
     {
         var occTiles = new List<Vector2Int>();
-        var towerPos = new Vector2Int(Mathf.FloorToInt(tower.transform.position.x), Mathf.FloorToInt(tower.transform.position.y));
-        for(int x = towerPos.x + tower.bottomLeft.x; x <= towerPos.x + tower.topRight.x; x++)
-        {
-            for(int y = towerPos.y  + tower.bottomLeft.y; y <= towerPos.y + tower.topRight.y; y++)
-            {
-                occTiles.Add(new Vector2Int(x, y));
-            }
-        }
+        //var towerPos = new Vector2Int(Mathf.FloorToInt(tower.transform.position.x), Mathf.FloorToInt(tower.transform.position.y));
+        //for(int x = towerPos.x + tower.BottomLeft.x; x <= towerPos.x + tower.topRight.x; x++)
+        //{
+        //    for(int y = towerPos.y  + tower.BottomLeft.y; y <= towerPos.y + tower.topRight.y; y++)
+        //    {
+        //        occTiles.Add(new Vector2Int(x, y));
+        //    }
+        //}
         return occTiles;
     }
 
@@ -124,13 +124,9 @@ public class GameHandler : MonoBehaviour
             }
         }
 
-
-
         var cellPos = WorldToCell(Input.mousePosition);
         var gameObjPos = new Vector2(cellPos.x + 0.5f, cellPos.y + 0.5f);
         selectedField.transform.position = gameObjPos;
-
-
     }
 
     public static Vector2 CellToWorld(Vector2 cell)
@@ -144,6 +140,15 @@ public class GameHandler : MonoBehaviour
         var vec3 = new Vector3Int((int)pos.x, (int)pos.y, 1);
         var cell = grid.WorldToCell(Camera.main.ScreenToWorldPoint(vec3));
         return new Vector2Int(cell.x, cell.y);
+    }
+
+
+    public static Vector2 RotationVector(Vector2 vec, float rotation)
+    {
+        float x = vec.x * Mathf.Cos(rotation) - vec.y * Mathf.Sin(rotation);
+        float y  = vec.x * Mathf.Sin(rotation) + vec.y * Mathf.Cos(rotation);
+
+        return new Vector2(x, y);
     }
 
 }

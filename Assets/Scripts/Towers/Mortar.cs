@@ -5,13 +5,9 @@ using UnityEngine;
 
 class Mortar : Turret
 {
-    public Mortar(float range, float atkSpeed, float dmgPerHit, bool aOE)
-       : base(range, atkSpeed, dmgPerHit, aOE)
+    public Mortar(float range, float atkSpeed)
+       : base(range, atkSpeed)
     {
-        this.range = 15;
-        this.atkSpeed = 1;
-        this.dmgPerHit = 5;
-        this.aOE = true;
 
     }
 
@@ -24,8 +20,4 @@ class Mortar : Turret
         return false;
     }
 
-    public override bool CanHit(Vector2 enemy)
-    {
-        throw new NotImplementedException();
-    }
 }

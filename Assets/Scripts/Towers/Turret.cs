@@ -11,17 +11,14 @@ abstract class Turret : MonoBehaviour
 
     public float range;
     public float atkSpeed;
-    public float dmgPerHit;
     public bool aOE;
 
     public GameObject projectile;
 
-    public Turret(float range, float atkSpeed, float dmgPerHit, bool aOE)
+    public Turret(float range, float atkSpeed)
     {
         this.range = range;
         this.atkSpeed = atkSpeed;
-        this.dmgPerHit = dmgPerHit;
-        this.aOE = aOE;
     }
 
     public Vector2 BottomLeft
@@ -46,8 +43,12 @@ abstract class Turret : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        transform.position = new Vector2(Mathf.Floor(transform.position.x) + 0.5f, Mathf.Floor(transform.position.y) + 0.5f);
+    }
+
     public abstract bool CanHit(float enemyposx, float enemyposy);
-    public abstract bool CanHit(Vector2 enemy);
 
     private float cooldownLeft = 0;
 
@@ -82,7 +83,7 @@ abstract class Turret : MonoBehaviour
 
     public void CreateProjectile(GameObject enemy)
     {
-        var proj = Instantiate(projectile, new Vector3(transform.position.x, transform.position.y, 1), Quaternion.identity);
+        var proj = Instantiate(projectile, new Vector3(transform.position.x, transform.position.y, 1), transform.rotation);
         var projScript = proj.GetComponent<MonoBehaviour>() as Projectile;
         projScript.enemy = enemy;
     }

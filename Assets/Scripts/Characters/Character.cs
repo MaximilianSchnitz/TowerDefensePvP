@@ -45,7 +45,6 @@ public class Character : MonoBehaviour
             return;
 
         ((Base) enemyBase.GetComponent<MonoBehaviour>()).health -= damage;
-        Debug.Log("Damage done!");
         Instantiate(transform.gameObject, Vector3.zero, Quaternion.identity);
         Destroy(transform.gameObject);
     }

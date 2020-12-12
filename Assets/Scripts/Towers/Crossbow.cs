@@ -6,13 +6,9 @@ using UnityEngine;
 class Crossbow : Turret
 {
     public int rotation;
-    public Crossbow(float range, float atkSpeed, float dmgPerHit, bool aOE, int rotation)
-        : base(range, atkSpeed, dmgPerHit, aOE)
+    public Crossbow(float range, float atkSpeed, int rotation)
+        : base(range, atkSpeed)
     {
-        this.range = 10;
-        this.atkSpeed = 0.5f;
-        this.dmgPerHit = 5;
-        this.aOE = false;
         // Methode zum Runden ?
         this.rotation = rotation;
     }
@@ -23,7 +19,7 @@ class Crossbow : Turret
         double angle;
         if (enemyposx - transform.position.x == 0)
         {
-            angle = 0;
+            angle = 90;
         }
         else
         {
@@ -31,7 +27,7 @@ class Crossbow : Turret
         }
         if (enemyposx >= transform.position.x && enemyposy < transform.position.y)
         {
-            angle = angle + 270;
+            angle = 360 - angle;
         }
 
         else if (enemyposx <= transform.position.x && enemyposy <= transform.position.y)
@@ -39,12 +35,10 @@ class Crossbow : Turret
             angle = angle + 180;
         }
 
-        else if (enemyposx <= transform.position.x && enemyposy > transform.position.y)
+        else if (enemyposx < transform.position.x && enemyposy > transform.position.y)
         {
-            angle = angle + 90;
+            angle = 180 - angle;
         }
-
-        Debug.Log(angle);
 
 
         if (Vector2.Distance(transform.position, new Vector2(enemyposx, enemyposy)) <= range)
@@ -58,7 +52,7 @@ class Crossbow : Turret
             }
             else
             {
-                if (angle >= 315 && angle <= 360 || angle <= 45 && angle >= 0)
+                if (angle >= 315 && angle < 360 || angle <= 45 && angle >= 0)
                 {
                     return true;
                 }
@@ -67,7 +61,7 @@ class Crossbow : Turret
         return false;
     }
 
-    public override bool CanHit(Vector2 enemy)
+    public bool CanHit(Vector2 enemy)
     {
         var pos = transform.position;
 

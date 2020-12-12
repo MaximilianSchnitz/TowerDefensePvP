@@ -7,20 +7,10 @@ class Canon : Turret
 {
 
     public int rotation;
-    public Canon(float range, float atkSpeed, float dmgPerHit, bool aOE, int rotation)
-        : base(range, atkSpeed, dmgPerHit, aOE)
+    public Canon(float range, float atkSpeed, int rotation)
+        : base(range, atkSpeed)
     {
-        this.range = 5;
-        this.atkSpeed = 1;
-        this.dmgPerHit = 15;
-        this.aOE = true;
         this.rotation = rotation;
-    }
-
-    private void Start()
-    {
-        transform.Rotate(new Vector3(0, 0, 360 - rotation));
-        transform.position = new Vector2(Mathf.Floor(transform.position.x) + 0.5f, Mathf.Floor(transform.position.y) + 0.5f);
     }
 
     public override bool CanHit(float enemyposx, float enemyposy)
@@ -50,17 +40,12 @@ class Canon : Turret
                 break;
             //oben
             case 270:
-                if (enemyposx >= enemyposx - 0.5 && enemyposx <= enemyposx + 0.5 && enemyposy > transform.position.y && enemyposy - transform.position.y < range)
+                if (enemyposx >= transform.position.x - 0.5 && enemyposx <= transform.position.x + 0.5 && enemyposy > transform.position.y && enemyposy - transform.position.y < range)
                 {
                     return true;
                 }
                 break;
         }
         return false;
-    }
-
-    public override bool CanHit(Vector2 enemy)
-    {
-        throw new NotImplementedException();
     }
 }

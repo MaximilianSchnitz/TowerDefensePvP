@@ -43,9 +43,8 @@ public class Character : MonoBehaviour
     {
         if (Vector2.Distance(transform.position, enemyBase.transform.position) > 1)
             return;
-
+        
         ((Base) enemyBase.GetComponent<MonoBehaviour>()).health -= damage;
-        Instantiate(transform.gameObject, Vector3.zero, Quaternion.identity);
         Destroy(transform.gameObject);
     }
     

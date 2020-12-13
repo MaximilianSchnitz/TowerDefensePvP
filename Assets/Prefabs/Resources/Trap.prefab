@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3414885436871490136}
   m_Layer: 0
   m_Name: Trap
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,9 +117,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3414885436871490142}
+  price: 15
   range: 1
   atkSpeed: 10
-  dmgPerHit: 2
   aOE: 0
+  rotation: 0
+  rotatable: 0
   projectile: {fileID: 6212209446443953138, guid: 3ce20a9cc6dcbba40810b99405d4b9e7,
     type: 3}

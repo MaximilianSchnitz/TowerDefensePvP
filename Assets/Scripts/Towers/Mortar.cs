@@ -5,8 +5,8 @@ using UnityEngine;
 
 class Mortar : Turret
 {
-    public Mortar(float range, float atkSpeed)
-       : base(range, atkSpeed)
+    public Mortar(float range, float atkSpeed, int price)
+       : base(range, atkSpeed, price)
     {
 
     }

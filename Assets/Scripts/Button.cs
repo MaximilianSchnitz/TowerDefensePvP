@@ -10,7 +10,6 @@ public class Button : MonoBehaviour
     public float height;
 
     public int indicator;
-    public bool isAttack;
 
     private Vector2 bottomLeft;
     private Vector2 topRight;

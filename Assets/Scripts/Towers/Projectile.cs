@@ -26,7 +26,6 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("asodujghi");
         if (collision.gameObject == enemy)
         {
             var chr = enemy.GetComponent<MonoBehaviour>() as Character;
@@ -34,17 +33,5 @@ public class Projectile : MonoBehaviour
             Destroy(transform.gameObject);
         }
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("ALARM");
-    //    if (collision.gameObject == enemy)
-    //    {
-    //        var chr = enemy.GetComponent<MonoBehaviour>() as Character;
-    //        chr.health -= damage;
-    //        Destroy(transform.gameObject);
-    //        Destroy(this);
-    //    }
-    //}
 
 }

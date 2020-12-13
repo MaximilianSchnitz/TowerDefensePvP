@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5941120241047808300}
   m_Layer: 0
   m_Name: Crossbow
-  m_TagString: Untagged
+  m_TagString: Tower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5941120241047808303}
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 7.59, y: -0.13, z: -475.7667}
+  m_LocalPosition: {x: 7.59, y: -0.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,8 +117,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5941120241047808301}
-  range: 5
-  atkSpeed: 5
+  price: 40
+  range: 8
+  atkSpeed: 4
   aOE: 0
+  rotation: 0
+  rotatable: 1
   projectile: {fileID: 4155541601974282, guid: deef2dcc95e4349458d9e99455ede1db, type: 3}
-  rotation: 270

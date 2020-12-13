@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Base : MonoBehaviour
 {
@@ -22,7 +23,11 @@ public class Base : MonoBehaviour
     void Update()
     {
         if (health <= 0)
+        {
             Destroy(transform.gameObject);
+            Environment.Exit(0);
+            Application.Quit(0);
+        }
     }
 
 }

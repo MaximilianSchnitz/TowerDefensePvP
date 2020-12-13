@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class TestChar : Character
 {
-    [SerializeField]
-    GameObject enemyBase;
+    private GameObject enemyBase;
 
     protected override void Start()
     {
         base.Start();
+
+        enemyBase = GameObject.FindGameObjectWithTag("Base");
         CalculatePathTo(enemyBase);
     }
 
@@ -20,9 +21,10 @@ public class TestChar : Character
         if(enemyBase != null)
             Attack(enemyBase);
         MovePath();
+
         if(Input.GetMouseButtonDown(0))
         {
-            CalculatePathTo(GameHandler.WorldToCell(Input.mousePosition));
+            //CalculatePathTo(GameHandler.WorldToCell(Input.mousePosition));
         }
 
         if (Input.GetKeyDown(KeyCode.Space))

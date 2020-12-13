@@ -9,16 +9,23 @@ abstract class Turret : MonoBehaviour
 {
     public Animator animator;
 
+    public int price;
     public float range;
     public float atkSpeed;
     public bool aOE;
+    public int rotation;
+    public bool rotatable;
+
+    [NonSerialized]
+    public bool isPlaced = false;
 
     public GameObject projectile;
 
-    public Turret(float range, float atkSpeed)
+    public Turret(float range, float atkSpeed, int price)
     {
         this.range = range;
         this.atkSpeed = atkSpeed;
+        this.price = price;
     }
 
     public Vector2 BottomLeft
@@ -46,6 +53,9 @@ abstract class Turret : MonoBehaviour
     void Start()
     {
         transform.position = new Vector2(Mathf.Floor(transform.position.x) + 0.5f, Mathf.Floor(transform.position.y) + 0.5f);
+
+        if (rotation == 360)
+            rotation = 0;
     }
 
     public abstract bool CanHit(float enemyposx, float enemyposy);
@@ -55,6 +65,9 @@ abstract class Turret : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isPlaced)
+            return;
+
         Target(GetClosestCharacter());
         if (cooldownLeft > 0)
             cooldownLeft -= Time.deltaTime;

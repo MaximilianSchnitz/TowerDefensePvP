@@ -7,6 +7,8 @@ TagManager:
   - Character
   - Button
   - Tower
+  - Currency
+  - Base
   layers:
   - Default
   - TransparentFX

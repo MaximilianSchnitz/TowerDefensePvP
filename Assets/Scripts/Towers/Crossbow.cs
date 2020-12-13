@@ -5,12 +5,10 @@ using UnityEngine;
 
 class Crossbow : Turret
 {
-    public int rotation;
-    public Crossbow(float range, float atkSpeed, int rotation)
-        : base(range, atkSpeed)
+    public Crossbow(float range, float atkSpeed, int price)
+        : base(range, atkSpeed, price)
     {
         // Methode zum Runden ?
-        this.rotation = rotation;
     }
 
     //elegante Lösung
@@ -25,21 +23,19 @@ class Crossbow : Turret
         {
             angle = Math.Atan(Math.Abs(enemyposy - transform.position.y) / Mathf.Abs(enemyposx - transform.position.x)) * Mathf.Rad2Deg;
         }
+
         if (enemyposx >= transform.position.x && enemyposy < transform.position.y)
         {
             angle = 360 - angle;
         }
-
         else if (enemyposx <= transform.position.x && enemyposy <= transform.position.y)
         {
             angle = angle + 180;
         }
-
         else if (enemyposx < transform.position.x && enemyposy > transform.position.y)
         {
             angle = 180 - angle;
         }
-
 
         if (Vector2.Distance(transform.position, new Vector2(enemyposx, enemyposy)) <= range)
         {
@@ -58,30 +54,6 @@ class Crossbow : Turret
                 }
             }
         }
-        return false;
-    }
-
-    public bool CanHit(Vector2 enemy)
-    {
-        var pos = transform.position;
-
-        //float angle = Mathf.Atan(pos.y - enemy.y / pos.x - enemy.x) * Mathf.Deg2Rad;
-
-        var newEnemyPos = GameHandler.RotationVector(enemy, rotation * Mathf.Deg2Rad);
-
-
-        float b1 = pos.y - pos.x;
-        float b2 = pos.y + pos.x;
-
-        if(newEnemyPos.x > transform.position.x)
-        {
-            float y1 = newEnemyPos.x + b1;
-            float y2 = newEnemyPos.x + b2;
-
-            if (newEnemyPos.y <= y1 && newEnemyPos.y >= y2)
-                return true;
-        }
-
         return false;
     }
 }

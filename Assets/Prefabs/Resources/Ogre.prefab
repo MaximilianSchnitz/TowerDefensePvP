@@ -147,9 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 5
   speed: 1
-  maxHealth: 100
-  damage: 20
-  enemyBase: {fileID: 0}
+  maxHealth: 200
+  damage: 45
 --- !u!114 &5420271060285377498
 MonoBehaviour:
   m_ObjectHideFlags: 0

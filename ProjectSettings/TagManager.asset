@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Character
+  - Button
+  - Tower
+  - Currency
+  - Base
   layers:
   - Default
   - TransparentFX
@@ -40,6 +45,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Buildings
+    uniqueID: 833150799
+    locked: 0
+  - name: Player
+    uniqueID: 3560999633
     locked: 0
   - name: UI
     uniqueID: 1554047817

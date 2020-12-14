@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 5
   speed: 4.5
-  maxHealth: 25
+  maxHealth: 35
   damage: 10
 --- !u!95 &9035189481120999654
 Animator:

@@ -22,13 +22,6 @@ public class TestChar : Character
             Attack(enemyBase);
         MovePath();
 
-        if(Input.GetMouseButtonDown(0))
-        {
-            //CalculatePathTo(GameHandler.WorldToCell(Input.mousePosition));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            health--;
 
     }
 }

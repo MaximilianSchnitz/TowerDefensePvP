@@ -25,8 +25,7 @@ public class Base : MonoBehaviour
         if (health <= 0)
         {
             Destroy(transform.gameObject);
-            Environment.Exit(0);
-            Application.Quit(0);
+            SceneManager.LoadScene("Scenes/MenuScene");
         }
     }
 

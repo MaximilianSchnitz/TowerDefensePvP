@@ -67,16 +67,22 @@ abstract class Turret : MonoBehaviour
     {
         if (!isPlaced)
             return;
+        
+        if (targetedEnemy is null)
+            targetedEnemy = GetClosestCharacter();
 
-        Target(GetClosestCharacter());
+        Target(targetedEnemy);
         if (cooldownLeft > 0)
             cooldownLeft -= Time.deltaTime;
     }
 
+    GameObject targetedEnemy;
+
     public void Target(GameObject enemy)
     {
-        if (enemy == null || !CanHit(enemy.transform.position.x, enemy.transform.position.y))
+        if (enemy is null || !CanHit(enemy.transform.position.x, enemy.transform.position.y))
         {
+            targetedEnemy = GetClosestCharacter();
             animator.SetBool("Firing", false);
             return;
         }

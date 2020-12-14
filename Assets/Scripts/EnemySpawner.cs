@@ -78,6 +78,11 @@ public class EnemySpawner : MonoBehaviour
         waves.Add(wave3);
         waves.Add(wave4);
         waves.Add(wave5);
+        waves.Add(wave6);
+        waves.Add(wave7);
+        waves.Add(wave8);
+        waves.Add(wave9);
+        waves.Add(wave10);
     }
 
     bool waveRunning = false;
@@ -147,7 +152,9 @@ public class EnemySpawner : MonoBehaviour
 
             waveRunning = true;
 
-            spawnCooldownLength -= currentWave / 100;
+            spawnCooldownLength -= currentWave / 20;
+
+            Debug.Log(currentWave);
 
             if(waves.Count - 1 > currentWave)
                 currentWave++;

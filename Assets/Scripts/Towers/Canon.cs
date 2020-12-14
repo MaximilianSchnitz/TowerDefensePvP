@@ -14,14 +14,10 @@ class Canon : Turret
 
     public override bool CanHit(float enemyposx, float enemyposy)
     {
-
-        Debug.Log(rotation);
-
         switch (rotation)
         {
             //rechts
             case 0:
-                Debug.Log("ads");
                 if (enemyposy >= transform.position.y - 0.5 && enemyposy <= transform.position.y + 0.5 && enemyposx > transform.position.x && enemyposx - transform.position.x < range)
                 {
                     return true;

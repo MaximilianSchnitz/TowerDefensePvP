@@ -18,11 +18,28 @@ class GoldMine : Turret
         return false;
     }
 
+    Currency currency;
+
     // Start is called before the first frame update
     void Start()
     {
         var gameHandler = GameObject.FindGameObjectWithTag("GameController");
-        var currency = gameHandler.GetComponent<Currency>();
-        currency.more += increase;
+        currency = gameHandler.GetComponent<Currency>();
     }
+
+    float cooldown;
+
+    void Update()
+    {
+        if(cooldown <= 0)
+        {
+            currency.currency += 1;
+            cooldown = 1 / increase;
+        }
+        else
+        {
+            cooldown -= Time.deltaTime;
+        }
+    }
+
 }

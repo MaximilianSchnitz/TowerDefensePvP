@@ -157,8 +157,6 @@ public class GameHandler : MonoBehaviour
         var mousePos = WorldToCell(Input.mousePosition);
         if (Input.GetMouseButtonDown(0) && !occupiedTiles.Contains(mousePos) && (!pathTiles.Contains(mousePos) || selectedButton == 3))
         {
-            foreach (var s in occupiedTiles)
-                Debug.Log(s);
             if(selectedButton >= 0 && selectedButton <= 4)
             {
                 var tower = GetTowerFromIndex(selectedButton);

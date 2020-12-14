@@ -117,10 +117,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5328028169373930198}
-  price: 50
+  price: 35
   range: 0
   atkSpeed: 0
   aOE: 0
   rotation: 0
+  rotatable: 0
   projectile: {fileID: 0}
   increase: 0.5

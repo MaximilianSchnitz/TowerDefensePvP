@@ -120,8 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 2
-  speed: 2.5
-  maxHealth: 17
+  speed: 3
+  maxHealth: 25
   damage: 5
 --- !u!114 &1197237006651998961
 MonoBehaviour:

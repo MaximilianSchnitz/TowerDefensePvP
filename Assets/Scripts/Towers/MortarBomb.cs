@@ -23,32 +23,50 @@ public class MortarBomb : Projectile
             if(enemy != null)
                 lastPos = enemy.transform.position;
         }
-        else if (enemy != null && reachedMaxHeight)
-        {
-            transform.position = Vector2.MoveTowards(transform.position, enemy.transform.position, speed * Time.deltaTime);
-            lastPos = enemy.transform.position;
-        }
         else
         {
-            transform.position = Vector2.MoveTowards(transform.position, lastPos, speed * Time.deltaTime);
-            if ((Vector2) transform.position == lastPos)
-                OnTriggerEnter2D(null);
+            if(enemy != null)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, enemy.transform.position, speed * Time.deltaTime);
+                lastPos = enemy.transform.position;
+            }
+            else
+            {
+                transform.position = Vector2.MoveTowards(transform.position, lastPos, speed * Time.deltaTime);
+                if ((Vector2) transform.position == lastPos)
+                    OnTriggerEnter2D(null);
+            }
         }
+        //else if (enemy != null && reachedMaxHeight)
+        //{
+        //    transform.position = Vector2.MoveTowards(transform.position, enemy.transform.position, speed * Time.deltaTime);
+        //    lastPos = enemy.transform.position;
+        //}
+        //else
+        //{
+        //    transform.position = Vector2.MoveTowards(transform.position, lastPos, speed * Time.deltaTime);
+        //    if ((Vector2) transform.position == lastPos)
+        //        OnTriggerEnter2D(null);
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (reachedMaxHeight)
+        if(collision is null || collision.gameObject.tag == "Character")
         {
-            var chars = GetCharactersInRange(AOERange);
-
-            foreach(var chr in chars)
+            if (reachedMaxHeight)
             {
-                var chrScript = chr.GetComponent<MonoBehaviour>() as Character;
-                chrScript.health -= damage;
+                var chars = GetCharactersInRange(AOERange);
+
+                foreach(var chr in chars)
+                {
+                    var chrScript = chr.GetComponent<MonoBehaviour>() as Character;
+                    chrScript.health -= damage;
+                }
+
+                Destroy(transform.gameObject);
             }
 
-            Destroy(transform.gameObject);
         }
     }
 
